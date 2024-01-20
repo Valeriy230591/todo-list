@@ -26,9 +26,9 @@ export default class Task extends Component {
   }
 
   handleInputChange = (e) => {
-    const newInputValue = e.target.value.trim();
+    const newInputValue = e.target.value;
 
-    if (newInputValue !== '') {
+    if (newInputValue.trim() !== '') {
       this.setState({ editText: newInputValue });
     } else {
       this.setState({ editText: this.props.label });
@@ -40,8 +40,8 @@ export default class Task extends Component {
     const { onToggleEdit } = this.props;
     const { editText } = this.state;
     const trimmedEditText = editText.trim();
-    console.log(trimmedEditText);
-    if (trimmedEditText !== '' && trimmedEditText !== this.props.label) {
+
+    if (trimmedEditText.length > 0 && trimmedEditText !== this.props.label) {
       onToggleEdit(trimmedEditText);
       this.setState({ editing: false, editText: trimmedEditText });
     } else {

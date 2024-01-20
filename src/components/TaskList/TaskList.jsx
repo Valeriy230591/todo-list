@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Task from '../Task/Task.js';
+import Task from '../Task/Task.jsx';
 
 function TaskList({ todos, onDeleted, onToggleComplet, onToggleEdit }) {
   const elements = todos.map((item) => (

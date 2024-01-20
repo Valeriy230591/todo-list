@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TaskFilter from '../TaskFilter/TaskFilter.js';
+import TaskFilter from '../TaskFilter/TaskFilter.jsx';
 
 function Footer({
   completedCount,

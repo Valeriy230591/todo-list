@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Footer from '../Footer/Footer.js';
-import TaskList from '../TaskList/TaskList.js';
-import NewTaskForm from '../NewTaskForm/NewTaskForm.js';
+import Footer from '../Footer/Footer.jsx';
+import TaskList from '../TaskList/TaskList.jsx';
+import NewTaskForm from '../NewTaskForm/NewTaskForm.jsx';
 
 export default class App extends Component {
   constructor(props) {
@@ -16,7 +16,8 @@ export default class App extends Component {
     };
   }
 
-  maxId = 100;
+  // eslint-disable-next-line class-methods-use-this
+  generateRandomId = () => Math.floor(Math.random() * 1000000);
 
   handleClearCompleted = () => {
     const { todoData } = this.state;
@@ -42,6 +43,13 @@ export default class App extends Component {
     return todoData;
   };
 
+  createTodoItem = (text) => ({
+    label: text,
+    completed: false,
+    editing: false,
+    id: this.generateRandomId(),
+  });
+
   addItem = (text) => {
     const newItem = this.createTodoItem(text);
     this.setState(({ todoData }) => {
@@ -53,7 +61,6 @@ export default class App extends Component {
   deleteItem = (id) => {
     this.setState(({ todoData }) => {
       const idx = todoData.findIndex((el) => el.id === id);
-
       const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)];
       return { todoData: newArray };
     });
@@ -79,7 +86,12 @@ export default class App extends Component {
     this.setState(({ todoData }) => {
       const idx = todoData.findIndex((el) => el.id === id);
       const oldItem = todoData[idx];
-      const newItem = { ...oldItem, editing: !oldItem.editing, label: newText };
+      let newItem;
+      if (newText) {
+        newItem = { ...oldItem, editing: !oldItem.editing, label: newText };
+      } else {
+        newItem = { ...oldItem, editing: !oldItem.editing };
+      }
       const newArray = [
         ...todoData.slice(0, idx),
         newItem,
@@ -90,10 +102,6 @@ export default class App extends Component {
       };
     });
   };
-
-  createTodoItem(label) {
-    return { label, completed: false, editing: false, id: this.maxId++ };
-  }
 
   render() {
     const { filter } = this.state;
